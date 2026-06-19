@@ -7,12 +7,13 @@ db.sequelize = sequelize;
 
 //import models
 db.User = require("./user");
-db.Role = require("./role");
-db.Position = require("./position");
-db.UserLog = require("./user_logs");
+db.patient = require("./patient");
+db.address = require("./address");
 
 //associations
-db.User.belongsTo(db.Role, { foreignKey: "role_id", as: "Role" });
-db.User.belongsTo(db.Position, { foreignKey: "position_id", as: "Position" });
+db.patient.hasMany(db.address, { foreignKey: "patient_id" , as: "address" });
+
+db.address.belongsTo(db.patient, { foreignKey: "patient_id" , as: "patient" });
+
 
 module.exports = db;

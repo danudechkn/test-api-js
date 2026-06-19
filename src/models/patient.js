@@ -9,6 +9,7 @@ const Patient = sequelize.define(
             primaryKey: true,
             autoIncrement: true,
         },
+        patient_id:DataTypes.INTEGER,
         first_name: DataTypes.STRING,
         last_name: DataTypes.STRING,
         gender: DataTypes.STRING,

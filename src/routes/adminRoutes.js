@@ -6,5 +6,5 @@ const { authenticateToken, authorizeRole } = require('../middlewares/authMiddlew
 
 
 router.get('/', authenticateToken, authorizeRole(1), adminController.getAllPatient);
-
+router.get('/pwa', adminController.getPatientWithAddress);
 module.exports = router;
