@@ -69,12 +69,17 @@ const login = async (req, res) => {
             process.env.JWT_SECRET || JWT_SECRET,
             { expiresIn: '1h' }
         );
-
+        
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 3600000 // 1 ชั่วโมง
+        });
 
         return res.status(200).json({
             success: true,
             message: 'เข้าสู่ระบบสำเร็จ',
-            token,
             user: {
                 id: user.id,
                 name: user.name,
@@ -88,16 +93,25 @@ const login = async (req, res) => {
         return res.status(500).json({ success: false, message: 'เกิดข้อผิดพลาดบนเซิร์ฟเวอร์' });
     }
 };
-const logout = (req, res) => {
+const logout = async (req, res) => {
     try {
-        user = req.user; // ข้อมูลผู้ใช้ที่ถูกตรวจสอบจาก middleware
-        console.log('User logged out:', req.user);
-        res.status(200).json({ success: true, message: 'ออกจากระบบสำเร็จ' });
+
+        res.clearCookie('accessToken', {
+            httpOnly: true,
+            secure: false,
+            sameSite: 'strict'
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: 'ออกจากระบบสำเร็จ'
+        });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, message: 'เกิดข้อผิดพลาดบนเซิร์ฟเวอร์' });
+        return res.status(500).json({ success: false, message: 'เกิดข้อผิดพลาดบนเซิร์ฟเวอร์' });
     }
 };
+
 
 module.exports = {
     register,
