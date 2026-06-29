@@ -10,8 +10,8 @@
             "server": "localhost",
             "port": 3306,
             "driver": "MySQL",
-            "name": "tar",
-            "database": "Project_test_tar",
+            "name": "database_tar",
+            "database": "project_tar",
             "username": "tar1234",
             "askForPassword": true
         }
